@@ -13,6 +13,9 @@ public record UserUpdateDTO(
         @Pattern(regexp = "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\\d)(?=.*?[@#$!%&*]).{8,}$", message = "Invalid Password")
         String password,
 
+        @NotNull(message = "Το πεδίο isActive είναι υποχρεωτικό.")
+        Boolean isActive,
+
         @NotNull(message = "Ο ρόλος είναι υποχρεωτικό πεδίο")
         @Pattern(regexp = "^(EDITOR|READER|ADMIN)$", message = "Ο ρόλος μπορεί να είναι READER, EDITOR, ή ADMIN")
         String role
