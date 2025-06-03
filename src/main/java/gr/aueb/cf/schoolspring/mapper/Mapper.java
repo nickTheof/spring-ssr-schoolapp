@@ -60,8 +60,12 @@ public class Mapper {
         return new User(null, dto.username(), dto.password(), true, Role.READER);
     }
 
-    public User mapToUser(UserUpdateDTO dto) {
-        return new User(null, dto.username(), dto.password(), dto.isActive(), Role.valueOf(dto.role()));
+    public User mapToUser(UserUpdateDTO dto, User user) {
+        user.setUsername(dto.username());
+        user.setPassword(dto.password());
+        user.setIsActive(dto.isActive());
+        user.setRole(Role.valueOf(dto.role()));
+        return user;
     }
 
     public UserReadOnlyDTO mapToUserReadOnlyDTO(User user) {
