@@ -27,8 +27,11 @@ public class Teacher extends AbstractEntity {
     @Column(unique = true)
     private String email;
 
+    @Column(name = "father_name")
     private String fatherName;
     private String street;
+
+    @Column(name = "street_num")
     private String streetNum;
     private String zipCode;
 
