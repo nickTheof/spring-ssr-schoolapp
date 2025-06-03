@@ -15,9 +15,16 @@ public class Mapper {
                 dto.fatherName(), dto.street(), dto.streetNum(), dto.zipCode(), null);
     }
 
-    public Teacher mapToTeacher(TeacherUpdateDTO dto) {
-        return new Teacher(null, dto.firstname(), dto.lastname(), dto.vat(), dto.email(),
-                dto.fatherName(), dto.street(), dto.streetNum(), dto.zipCode(), null);
+    public Teacher mapToTeacher(TeacherUpdateDTO dto, Teacher teacher) {
+        teacher.setFirstname(dto.firstname());
+        teacher.setLastname(dto.lastname());
+        teacher.setVat(dto.vat());
+        teacher.setEmail(dto.email());
+        teacher.setFatherName(dto.fatherName());
+        teacher.setStreet(dto.street());
+        teacher.setStreetNum(dto.streetNum());
+        teacher.setZipCode(dto.zipCode());
+        return teacher;
     }
 
     public Student mapToStudent(StudentInsertDTO dto) {
@@ -25,9 +32,16 @@ public class Mapper {
                 dto.fatherName(), dto.street(), dto.streetNum(), dto.zipCode(), null);
     }
 
-    public Student mapToStudent(StudentUpdateDTO dto) {
-        return new Student(null, dto.firstname(), dto.lastname(), dto.vat(), dto.email(),
-                dto.fatherName(), dto.street(), dto.streetNum(), dto.zipCode(), null);
+    public Student mapToStudent(StudentUpdateDTO dto, Student student) {
+        student.setFirstname(dto.firstname());
+        student.setLastname(dto.lastname());
+        student.setVat(dto.vat());
+        student.setEmail(dto.email());
+        student.setFatherName(dto.fatherName());
+        student.setStreet(dto.street());
+        student.setStreetNum(dto.streetNum());
+        student.setZipCode(dto.zipCode());
+        return student;
     }
 
     public TeacherReadOnlyDTO mapToTeacherReadOnlyDTO(Teacher teacher) {
