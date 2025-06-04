@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head>
+</head>
+<body>
+<nav th:fragment="desktopNav" class="hidden md:block">
+  <ul class="flex justify-between items-center gap-x-4">
+    <li class="block relative group">
+      <div
+              class="flex items-center justify-between text-sm text-zinc-200 group-hover:text-white px-3 py-2 rounded relative cursor-pointer"
+      >
+        <span>Μητρώο Εκπαιδευτών</span>
+        <svg
+                class="ml-1 h-4 w-4 text-zinc-200 group-hover:text-white transition-transform transform group-hover:rotate-180 duration-300"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+        >
+          <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+          />
+        </svg>
+        <!-- underline -->
+        <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-1000 group-hover:w-full"
+        ></span>
+      </div>
+      <!-- sub-menu -->
+      <div
+              class="absolute hidden group-hover:flex flex-col justify-start gap-y-2 bg-white w-48 shadow-lg rounded transition-all duration-1000"
+      >
+        <a
+                href="@{/school/dashboard/teachers}"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
+        >Προβολή Μητρώου</a
+        >
+        <a      sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')"
+                href="@{/school/dashboard/teachers/insert}"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
+        >Εισαγωγή Εκπαιδευτή</a
+        >
+      </div>
+    </li>
+    <li class="block relative group">
+      <div
+              class="flex items-center justify-between text-zinc-200 group-hover:text-white px-3 py-2 rounded text-sm font-medium relative cursor-pointer"
+      >
+        <span>Μητρώο Μαθητών</span>
+        <svg
+                class="ml-1 h-4 w-4 text-zinc-200 group-hover:text-white transition-transform transform group-hover:rotate-180 duration-300"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+        >
+          <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+          />
+        </svg>
+        <!-- underline -->
+        <span
+                class="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-1000 group-hover:w-full"
+        ></span>
+      </div>
+      <!-- sub-menu -->
+      <div
+              class="absolute hidden group-hover:flex flex-col justify-start gap-y-2 bg-white w-48 shadow-lg rounded transition-all duration-1000"
+      >
+        <a
+                href="@{/school/dashboard/students}"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
+        >Προβολή Μητρώου</a
+        >
+        <a      sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')"
+                href="@{/school/dashboard/students/insert}"
+                class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
+        >Εισαγωγή Μαθητή</a
+        >
+      </div>
+    </li>
+  </ul>
+</nav>
+</body>
+</html>

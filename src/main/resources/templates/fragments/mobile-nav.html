@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head>
+</head>
+<body>
+<!-- Mobile Navigation Menu -->
+<div th:fragment="mobileNav" id="mobile-menu" class="md:hidden flex flex-col justify-center">
+  <button
+          id="mobileMenuToggle"
+          type="button"
+          class="w-full flex items-center justify-center py-2 text-zinc-200 hover:text-cf-dark-red-100 hover:bg-white transition-colors duration-300 cursor-pointer" >
+    <svg
+            id="mobile-menu-icon"
+            class="h-5 w-5 transform transition-transform"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+    >
+      <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+      />
+    </svg>
+  </button>
+  <div id="mobileSubmenu" class="hidden md:hidden">
+    <div
+            class="block py-1 text-zinc-200 hover:text-cf-dark-red-100 hover:bg-white transition-colors duration-300 cursor-pointer"
+    >
+      <button
+              type="button"
+              id="submenu-toggle-teachers"
+              class="flex justify-between items-center w-full px-8 pt-2 cursor-pointer"
+      >
+        <span>Μητρώο Εκπαιδευτών</span>
+        <svg
+                id="submenu-teachers-icon"
+                class="h-5 w-5 transform transition-transform"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+        >
+          <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+      <div id="submenu-content-teachers" class="hidden">
+        <a
+                class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
+                href="@{/school/dashboard/teachers}"
+        >Προβολή Μητρώου</a
+        >
+        <a      sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')"
+                class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
+                href="@{/school/dashboard/teachers/insert}"
+        >Εισαγωγή Εκπαιδευτή</a
+        >
+      </div>
+    </div>
+    <div
+            class="block py-1 text-zinc-200 hover:text-cf-dark-red-100 hover:bg-white transition-colors duration-300 cursor-pointer"
+    >
+      <button
+              id="submenu-toggle-students"
+              class="flex justify-between items-center w-full px-8 pt-2 cursor-pointer"
+      >
+        <span>Μητρώο Μαθητών</span>
+        <svg
+                id="submenu-students-icon"
+                class="h-5 w-5 transform transition-transform"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+        >
+          <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </button>
+      <div id="submenu-content-students" class="hidden">
+        <a
+                class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
+                href="@{/school/dashboard/students}"
+        >Προβολή Μητρώου</a
+        >
+        <a
+                sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')"
+                class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
+                href="@{/school/dashboard/students/insert}"
+        >Εισαγωγή Μαθητή</a
+        >
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+</body>
+</html>
