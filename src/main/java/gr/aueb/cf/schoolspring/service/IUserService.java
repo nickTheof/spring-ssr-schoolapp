@@ -19,5 +19,5 @@ public interface IUserService {
     Page<UserReadOnlyDTO> getPaginatedUsers(int page, int size);
     UserReadOnlyDTO findByUsername(String username) throws EntityNotFoundException;
     Page<UserReadOnlyDTO> getPaginatedUsersByActivityStatus(Boolean isActive, int page, int size);
-    Page<UserReadOnlyDTO> getPaginatedUserByRole(Role role, int page, int size);
+    Page<UserReadOnlyDTO> getPaginatedUsersByRole(Role role, int page, int size);
 }
