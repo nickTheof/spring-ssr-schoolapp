@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head>
+</head>
+<body>
+<header th:fragment="headerFragment(title)" class="bg-cf-dark-red-100 border-b-2 border-cf-dark-red-200 text-sm text-white fixed w-full">
+    <div class="flex justify-between items-center p-4 h-20 w-full max-w-7xl mx-auto">
+        <a class="flex items-center gap-x-4" href="/">
+            <img class="h-12 w-auto" src="/img/logo_opa.png" alt="Logo of Economics University of Athens">
+            <span th:text="${title}" class="hidden lg:block font-serif font-thin text-sm tracking-wide"></span>
+        </a>
+        <!--  Desktop Nav  -->
+        <nav sec:authorize="isAuthenticated()" th:replace="~{fragments/desktop-nav :: desktopNav}">
+
+        </nav>
+        <!--        Logout Menu-->
+        <div sec:authorize="isAuthenticated()" class="relative">
+            <button type="button" id="logoutToggle" class="flex items-center gap-x-4 p-2 rounded border border-transparent hover:border-white focus:border-white focus:outline-none transition-all duration-150 cursor-pointer">
+                <span th:text="${#authentication.name}" class="hidden sm:inline-block"></span>
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+            </button>
+            <div id="dropdownHeaderLogoutMenu"
+                class="hidden block absolute z-1 top-[40px] right-0 w-48 h-16 rounded shadow-lg bg-white border transition duration-150 ease-in-out py-4"
+            >
+                <ul>
+                    <li class="block w-full">
+                        <a class="text-black block w-full px-4 cursor-pointer hover:underline" href="@{/logout}">Έξοδος</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+        <!--    Mobile Nav    -->
+    <div sec:authorize="isAuthenticated()" th:replace="~{fragments/mobile-nav :: mobileNav}">
+    </div>
+</header>
+
+</body>
+</html>
