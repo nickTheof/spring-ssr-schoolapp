@@ -47,9 +47,9 @@ public class TeacherService implements ITeacherService{
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public TeacherReadOnlyDTO updateTeacher(Long id, TeacherUpdateDTO dto) throws EntityNotFoundException, EntityInvalidArgumentException, EntityAlreadyExistsException {
-        Teacher toUpdate = teacherRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Teacher", "Ο καθηγητής με το id " + id + " δεν βρέθηκε.")
+    public TeacherReadOnlyDTO updateTeacher(String uuid, TeacherUpdateDTO dto) throws EntityNotFoundException, EntityInvalidArgumentException, EntityAlreadyExistsException {
+        Teacher toUpdate = teacherRepository.findByUuid(uuid).orElseThrow(
+                () -> new EntityNotFoundException("Teacher", "Ο καθηγητής με το uuid " + uuid + " δεν βρέθηκε.")
         );
         Optional<Teacher> fetchTeacherByVat = teacherRepository.findByVat(dto.vat());
         if (fetchTeacherByVat.isPresent() && !fetchTeacherByVat.get().getUuid().equals(toUpdate.getUuid()))

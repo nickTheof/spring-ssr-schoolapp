@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 public interface ITeacherService {
     TeacherReadOnlyDTO saveTeacher(TeacherInsertDTO dto)
             throws EntityAlreadyExistsException, EntityInvalidArgumentException;
-    TeacherReadOnlyDTO updateTeacher(Long id, TeacherUpdateDTO dto)
+    TeacherReadOnlyDTO updateTeacher(String uuid, TeacherUpdateDTO dto)
         throws EntityNotFoundException, EntityInvalidArgumentException, EntityAlreadyExistsException;
     void deleteTeacherByUuid(String uuid) throws EntityNotFoundException;
     TeacherReadOnlyDTO findTeacherByUuid(String uuid) throws EntityNotFoundException;
