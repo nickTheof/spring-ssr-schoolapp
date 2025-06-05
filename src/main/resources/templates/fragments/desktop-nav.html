@@ -39,7 +39,7 @@
         >Προβολή Μητρώου</a
         >
         <a      sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"
-                th:href="@{/school/dashboard/teachers/insert}"
+                th:href="@{/school/dashboard/teachers/teacher/insert}"
                 class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
         >Εισαγωγή Εκπαιδευτή</a
         >
@@ -79,7 +79,7 @@
         >Προβολή Μητρώου</a
         >
         <a      sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"
-                th:href="@{/school/dashboard/students/insert}"
+                th:href="@{/school/dashboard/students/student/insert}"
                 class="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded"
         >Εισαγωγή Μαθητή</a
         >
