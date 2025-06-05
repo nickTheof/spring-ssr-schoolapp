@@ -5,6 +5,8 @@ import gr.aueb.cf.schoolspring.core.exceptions.EntityInvalidArgumentException;
 import gr.aueb.cf.schoolspring.core.exceptions.EntityNotFoundException;
 import gr.aueb.cf.schoolspring.dto.TeacherInsertDTO;
 import gr.aueb.cf.schoolspring.dto.TeacherReadOnlyDTO;
+import gr.aueb.cf.schoolspring.dto.TeacherUpdateDTO;
+import gr.aueb.cf.schoolspring.model.static_data.Region;
 import gr.aueb.cf.schoolspring.service.IRegionService;
 import gr.aueb.cf.schoolspring.service.ITeacherService;
 import jakarta.validation.Valid;
@@ -18,8 +20,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
-@RequestMapping("/school/dashboard")
+@RequestMapping("/school/dashboard/")
 @RequiredArgsConstructor
 public class TeachersController {
     private final ITeacherService teacherService;
@@ -84,6 +88,61 @@ public class TeachersController {
             model.addAttribute("regions", regionService.findAllRegions());
             model.addAttribute("errorMessage", e.getMessage());
             return "teachers-insert";
+        }
+    }
+
+    @GetMapping("/teachers/teacher/update")
+    public String getTeacherUpdateForm(
+            @RequestParam(defaultValue = "") String uuid,
+            Model model
+    ) {
+        try {
+            List<Region> regions = regionService.findAllRegions();
+            TeacherReadOnlyDTO readOnlyDTO = teacherService.findTeacherByUuid(uuid);
+            Region teacherRegion = regions.stream().filter(r -> r.getName().equals(readOnlyDTO.region())).findFirst().orElseThrow(() -> new EntityNotFoundException("Region", "Region with name " + readOnlyDTO.region() + " not found."));
+            TeacherUpdateDTO updateDTO = new TeacherUpdateDTO(
+                    uuid,
+                    readOnlyDTO.firstname(),
+                    readOnlyDTO.lastname(),
+                    readOnlyDTO.vat(),
+                    readOnlyDTO.email(),
+                    readOnlyDTO.fatherName(),
+                    readOnlyDTO.street(),
+                    readOnlyDTO.streetNum(),
+                    readOnlyDTO.zipCode(),
+                    teacherRegion.getId()
+            );
+            model.addAttribute("teacherUpdateDTO", updateDTO);
+            model.addAttribute("regions", regions);
+            return "teachers-update";
+        } catch (EntityNotFoundException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("regions", regionService.findAllRegions());
+            return "teachers-update";
+        }
+    }
+
+    @PostMapping("/teachers/teacher/update")
+    public String updateTeacher(@Valid @ModelAttribute("teacherUpdateDTO") TeacherUpdateDTO dto,
+                                BindingResult bindingResult,
+                                Model model,
+                                RedirectAttributes attrs
+                                ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("regions", regionService.findAllRegions());
+            return "teachers-update";
+        }
+        try {
+            TeacherReadOnlyDTO readOnlyDTO = teacherService.updateTeacher(dto.uuid(), dto);
+            LOGGER.info("Teacher with uuid={} updated", readOnlyDTO.id());
+            attrs.addFlashAttribute("successMessage", "Ο Καθηγητής με uuid " + readOnlyDTO.uuid() + " ενημερώθηκε επιτυχώς.");
+            return "redirect:/school/dashboard/teachers";
+        } catch (EntityNotFoundException | EntityInvalidArgumentException | EntityAlreadyExistsException e) {
+            LOGGER.error("Teacher with vat={} not inserted", dto.vat(), e);
+            model.addAttribute("regions", regionService.findAllRegions());
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("teacherUpdateDTO", dto);
+            return "teachers-update";
         }
     }
 }
