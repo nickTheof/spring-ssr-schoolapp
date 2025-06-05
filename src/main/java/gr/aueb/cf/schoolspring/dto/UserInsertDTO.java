@@ -9,8 +9,12 @@ public record UserInsertDTO(
         @Email(message = "Μη έγκυρη μορφή email.")
         String username,
 
-        @NotNull(message = "Ο κωδικός είναι υποχρεωτικό.")
-        @Pattern(regexp = "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\\d)(?=.*?[@#$!%&*]).{8,}$", message = "Invalid Password")
-        String password
+        @NotNull(message = "Ο κωδικός είναι υποχρεωτικός.")
+        @Pattern(regexp = "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\\d)(?=.*?[@#$!%&*]).{8,}$", message = "Μη έγκυρη μορφή κωδικού.")
+        String password,
+
+        @NotNull(message = "Η επιβεβαίωση κωδικού είναι υποχρεωτική.")
+        @Pattern(regexp = "^(?=.*?[a-z])(?=.*?[A-Z])(?=.*?\\d)(?=.*?[@#$!%&*]).{8,}$", message = "Μη έγκυρη μορφή επιβεβαίωσης κωδικού.")
+        String confirmPassword
 ) {
 }
