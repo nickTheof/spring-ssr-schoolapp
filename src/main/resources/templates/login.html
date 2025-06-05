@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: headFragment('Είσοδος | Coding Factory')}"></head>
+<body>
+<header th:replace="~{fragments/header :: headerFragment('Coding Factory - Είσοδος')}"></header>
+<main class="w-full min-h-[95vh]">
+  <div class="w-full max-w-lg mx-auto shadow-lg rounded mt-12 p-4">
+    <div th:if="${param.error}">
+      <div th:replace="{fragments/error-card :: errorCardFragment(${session['SPRING_SECURITY_LAST_EXCEPTION'].message})}"></div>
+    </div>
+    <span class="block text-center text-2xl font-thin">Είσοδος</span>
+    <form method="POST" th:action="@{/login}" class="m-4 p-4">
+      <div class="flex flex-col border-b-2 mb-2">
+        <label class="text-sm font-sans mb-1" for="username">
+          Email
+        </label>
+        <div class="flex items-center gap-x-2 mb-2">
+          <span class="text-stone-400"><i class="fa-solid fa-user"></i></span>
+          <input
+                  class="grow h-10 p-2 text-sm placeholder:font-sans placeholder:text-sm focus:outline-none focus:ring focus:ring-inset-2 focus:ring-cf-dark-red-100"
+                  id="username"
+                  name="username"
+                  type="email"
+                  placeholder="Εισάγετε το email σας"
+                  required
+          />
+        </div>
+      </div>
+      <div class="flex flex-col border-b-2">
+        <label class="text-sm font-sans mb-1" for="password">
+          Password
+        </label>
+        <div class="flex items-center gap-x-2 mb-2">
+          <span class="text-stone-400"><i class="fa-solid fa-lock"></i></span>
+          <input
+                  class="grow h-10 p-2 text-sm placeholder:font-sans placeholder:text-sm focus:outline-none focus:ring focus:ring-inset-2 focus:ring-cf-dark-red-100"
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Εισάγετε τον κωδικό σας"
+                  required
+          />
+        </div>
+      </div>
+      <div class="flex justify-end items-center mt-2 mb-5">
+        <a
+                class="text-sm text-stone-600 hover:text-stone-800 hover:underline hover:decoration-solid"
+                href="#"
+        >
+          Ξεχάσατε τον κωδικό σας;
+        </a>
+      </div>
+      <button
+              type="submit"
+              class="w-full border rounded-xl h-9 text-white text-sm font-thin bg-cf-dark-red-100 hover:bg-cf-dark-red-200 transition-all duration-150 easy-in-out cursor-pointer"
+      >
+        Είσοδος
+      </button>
+    </form>
+    <div class="text-center m-4">
+      <span class="pe-2">Δεν έχετε λογαριασμό;</span>
+      <a
+              class="text-cf-dark-red-100 hover:text-cf-dark-red-200 hover:underline"
+              th:href="@{/school/users/register}"
+      >
+        Εγγραφή
+      </a>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+</body>
+</html>
