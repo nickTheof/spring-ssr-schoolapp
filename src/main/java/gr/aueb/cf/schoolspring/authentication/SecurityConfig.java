@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
+
 
 @Configuration
 @EnableWebSecurity
@@ -16,12 +16,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)
+                // Add default csrf security
+                // .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( authorize -> authorize
                         .requestMatchers("/", "/index.html").permitAll()
                         .requestMatchers("/school/users/register").permitAll()
                         .requestMatchers("/admin/panel/**").hasAnyAuthority(Role.ADMIN.name())
-                        .requestMatchers("/school/dashboard/**").authenticated()
+                        .requestMatchers("/school/dashboard/teachers/teacher/insert").hasAnyAuthority(Role.ADMIN.name(), Role.EDITOR.name())
+                        .requestMatchers("/school/dashboard/teachers/teacher/update").hasAnyAuthority(Role.ADMIN.name(), Role.EDITOR.name())
+                        .requestMatchers("/school/dashboard/teachers/teacher/delete").hasAnyAuthority(Role.ADMIN.name(), Role.EDITOR.name())
+                        .requestMatchers("/school/dashboard/students/student/insert").hasAnyAuthority(Role.ADMIN.name(), Role.EDITOR.name())
+                        .requestMatchers("/school/dashboard/students/student/update").hasAnyAuthority(Role.ADMIN.name(), Role.EDITOR.name())
+                        .requestMatchers("/school/dashboard/students/student/delete").hasAnyAuthority(Role.ADMIN.name(), Role.EDITOR.name())
                         .requestMatchers("/css/**").permitAll()
                         .requestMatchers("/js/**").permitAll()
                         .requestMatchers("/img/**").permitAll()
