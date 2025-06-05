@@ -29,9 +29,8 @@ public class UserService implements IUserService {
     @Override
     @Transactional(rollbackOn = Exception.class)
     public UserReadOnlyDTO saveUser(UserInsertDTO dto) throws EntityAlreadyExistsException {
-        userRepository.findByUsername(dto.username()).orElseThrow(
-                () -> new EntityAlreadyExistsException("User", "Ο χρήστης με username " + dto.username() + " υπάρχει ήδη.")
-        );
+        if(userRepository.findByUsername(dto.username()).isPresent())
+            throw new EntityAlreadyExistsException("User", "Ο χρήστης με username " + dto.username() + " υπάρχει ήδη.");
         User user = mapper.mapToUser(dto);
         user.setPassword(passwordEncoder.encode(dto.password()));
         User savedUser = userRepository.save(user);
