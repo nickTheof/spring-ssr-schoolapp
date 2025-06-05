@@ -54,12 +54,12 @@
       <div id="submenu-content-teachers" class="hidden">
         <a
                 class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
-                href="@{/school/dashboard/teachers}"
+                th:href="@{/school/dashboard/teachers}"
         >Προβολή Μητρώου</a
         >
         <a      sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')"
                 class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
-                href="@{/school/dashboard/teachers/insert}"
+                th:href="@{/school/dashboard/teachers/insert}"
         >Εισαγωγή Εκπαιδευτή</a
         >
       </div>
@@ -91,13 +91,13 @@
       <div id="submenu-content-students" class="hidden">
         <a
                 class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
-                href="@{/school/dashboard/students}"
+                th:href="@{/school/dashboard/students}"
         >Προβολή Μητρώου</a
         >
         <a
                 sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')"
                 class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
-                href="@{/school/dashboard/students/insert}"
+                th:href="@{/school/dashboard/students/insert}"
         >Εισαγωγή Μαθητή</a
         >
       </div>
