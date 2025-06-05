@@ -4,5 +4,21 @@
 </head>
 <body>
 <header th:replace="~{fragments/header :: headerFragment('Coding Factory - Education Reinvented')}"></header>
+<main class="w-full min-h-[95vh]">
+    <div th:if="${successMessage}">
+        <div th:replace="~{fragments/success-card :: successCardFragment(${successMessage})}">
+        </div>
+    </div>
+    <div class="text-center mt-12">
+        <span class="text-2xl">Κεντρική Υπηρεσία Coding Factory</span>
+    </div>
+    <div class="text-center mt-6">
+        <a href="@{/login}"
+                class="text-white text-sm px-6 py-3 rounded bg-cf-dark-red-200 hover:bg-cf-dark-red-100 cursor-pointer transition-all duration-150 easy-in-out">
+            Είσοδος
+        </a>
+    </div>
+</main>
+<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
 </body>
 </html>
