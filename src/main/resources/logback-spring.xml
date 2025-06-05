@@ -8,6 +8,7 @@
         </filter>
         <encoder>
             <pattern>%highlight([%-5level]) %cyan(%d{HH:mm:ss.SSS}) %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
     </appender>
 
@@ -19,6 +20,7 @@
         </filter>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/all.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -34,6 +36,7 @@
         </filter>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/error.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -46,6 +49,7 @@
         <file>logs/tomcat.log</file>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/tomcat.%d{yyyy-MM-dd}.log</fileNamePattern>
@@ -58,6 +62,7 @@
         <file>logs/hikari.log</file>
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n</pattern>
+            <charset>UTF-8</charset>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>logs/hikari.%d{yyyy-MM-dd}.log</fileNamePattern>
