@@ -12,7 +12,7 @@ import org.springframework.data.domain.Page;
 public interface IStudentService {
     StudentReadOnlyDTO saveStudent(StudentInsertDTO dto)
         throws EntityAlreadyExistsException, EntityInvalidArgumentException;
-    StudentReadOnlyDTO updateStudent(Long id, StudentUpdateDTO dto)
+    StudentReadOnlyDTO updateStudent(String uuid, StudentUpdateDTO dto)
         throws EntityAlreadyExistsException, EntityInvalidArgumentException, EntityNotFoundException;
     void deleteStudentByUuid(String uuid) throws EntityNotFoundException;
     Page<StudentReadOnlyDTO> getPaginatedStudents(int page, int size);

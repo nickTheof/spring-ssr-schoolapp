@@ -46,9 +46,9 @@ public class StudentService implements IStudentService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public StudentReadOnlyDTO updateStudent(Long id, StudentUpdateDTO dto) throws EntityAlreadyExistsException, EntityInvalidArgumentException, EntityNotFoundException {
-        Student toUpdate = studentRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("Student", "Ο μαθητής με το id " + id + " δεν βρέθηκε.")
+    public StudentReadOnlyDTO updateStudent(String uuid, StudentUpdateDTO dto) throws EntityAlreadyExistsException, EntityInvalidArgumentException, EntityNotFoundException {
+        Student toUpdate = studentRepository.findByUuid(uuid).orElseThrow(
+                () -> new EntityNotFoundException("Student", "Ο μαθητής με το uuid " + uuid + " δεν βρέθηκε.")
         );
         Optional<Student> fetchStudentByVat = studentRepository.findByVat(dto.vat());
         if (fetchStudentByVat.isPresent() && !fetchStudentByVat.get().getUuid().equals(toUpdate.getUuid()))

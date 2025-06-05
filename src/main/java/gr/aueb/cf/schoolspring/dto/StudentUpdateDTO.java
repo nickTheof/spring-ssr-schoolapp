@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record StudentUpdateDTO(
+        String uuid,
         @NotNull(message = "Το όνομα δεν μπορεί να είναι κενό.")
         @Size(min = 2, message = "Το όνομα πρέπει να περιέχει τουλάχιστον δυο χαρακτήρες.")
         String firstname,
