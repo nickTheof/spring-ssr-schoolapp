@@ -5,6 +5,10 @@
 <body>
 <header th:replace="~{fragments/header :: headerFragment('Coding Factory - Μητρώο Καθηγητών')}"></header>
 <main class="w-full min-h-[95vh]">
+    <div th:if="${successMessage}">
+        <div th:replace="~{fragments/success-card :: successCardFragment(${successMessage})}">
+        </div>
+    </div>
     <span class="block text-center text-2xl font-thin tracking-widest mt-12 mb-4">Μητρώο Καθηγητών</span>
     <div class="overflow-y-auto max-h-[550px]">
         <div sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" class="w-4/5 mx-auto flex justify-end mb-4">
