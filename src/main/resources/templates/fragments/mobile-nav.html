@@ -57,7 +57,7 @@
                 th:href="@{/school/dashboard/teachers}"
         >Προβολή Μητρώου</a
         >
-        <a      sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')"
+        <a      sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"
                 class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
                 th:href="@{/school/dashboard/teachers/insert}"
         >Εισαγωγή Εκπαιδευτή</a
@@ -95,7 +95,7 @@
         >Προβολή Μητρώου</a
         >
         <a
-                sec:authorize="hasRole('ADMIN') or hasRole('EDITOR')"
+                sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"
                 class="block pl-16 py-1 hover:bg-cf-dark-red-100 hover:text-white transition-colors duration-300 cursor-pointer"
                 th:href="@{/school/dashboard/students/insert}"
         >Εισαγωγή Μαθητή</a
