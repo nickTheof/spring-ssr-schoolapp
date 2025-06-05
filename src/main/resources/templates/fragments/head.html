@@ -2,6 +2,7 @@
 <html lang="el" xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="headFragment(title)">
     <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
     <link rel="icon"
           type="image/vnd.microsoft.icon"
           th:href="@{/img/favicon.ico}"
