@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: headFragment('Εγγραφή Χρήστη | Coding Factory')}">
+</head>
+<body>
+<header th:replace="~{fragments/header :: headerFragment('Coding Factory - Εγγραφή Χρήστη')}"></header>
+<main class="w-full min-h-[95vh]">
+  <div th:if="${errorMessage}">
+    <div  th:replace="~{fragments/error-card :: errorCardFragment(${errorMessage})}">
+    </div>
+  </div>
+  <div class="w-full max-w-lg mx-auto shadow-lg rounded mt-12 p-4">
+    <span class="block text-center text-2xl font-thin">Φόρμα Εγγραφής Νέου Χρήστη</span>
+    <form method="POST" th:object="${userInsertDTO}"  class="p-4">
+      <div class="flex flex-col border-b-2 mb-2 h-24">
+        <label class="text-sm font-sans mb-1" for="username">Email</label>
+        <div class="flex items-center gap-x-2">
+          <span class="text-stone-400"><i class="fa-solid fa-user"></i></span>
+          <input
+                  class="grow h-10 p-2 text-sm placeholder:font-sans placeholder:text-sm focus:outline-none focus:ring focus:ring-inset-2 focus:ring-cf-dark-red-100"
+                  id="username"
+                  name="username"
+                  type="email"
+                  placeholder="Εισάγετε το email σας"
+                  th:field="*{username}"
+                  required
+          />
+        </div>
+        <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="block text-red-600 text-sm">
+            </span>
+      </div>
+
+      <div class="flex flex-col border-b-2 mb-2 h-24">
+        <label class="text-sm font-sans mb-1" for="password">Κωδικός</label>
+        <div class="flex items-center gap-x-2">
+          <span class="text-stone-400"><i class="fa-solid fa-lock"></i></span>
+          <input
+                  class="grow h-10 p-2 text-sm placeholder:font-sans placeholder:text-sm focus:outline-none focus:ring focus:ring-inset-2 focus:ring-cf-dark-red-100"
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="Εισάγετε τον κωδικό σας"
+                  th:field="*{password}"
+                  required
+          />
+        </div>
+        <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="block text-red-600 text-sm">
+            </span>
+      </div>
+
+      <div class="flex flex-col border-b-2 mb-2 h-24">
+        <label class="text-sm font-sans mb-1" for="confirmPassword">Επιβεβαίωση Κωδικού</label>
+        <div class="flex items-center gap-x-2">
+          <span class="text-stone-400"><i class="fa-solid fa-lock"></i></span>
+          <input
+                  class="grow h-10 p-2 text-sm placeholder:font-sans placeholder:text-sm focus:outline-none focus:ring focus:ring-inset-2 focus:ring-cf-dark-red-100"
+                  id="confirmPassword"
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Επιβεβαιώστε τον κωδικό σας"
+                  th:field="*{confirmPassword}"
+                  required
+          />
+        </div>
+        <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}" class="block text-red-600 text-sm">
+            </span>
+      </div>
+      <button
+              type="submit"
+              class="w-full border rounded-xl h-9 text-white text-sm font-thin bg-cf-dark-red-100 hover:bg-cf-dark-red-200 mt-5 cursor-pointer">
+        Εγγραφή
+      </button>
+    </form>
+
+    <div class="text-center">
+      <span class="text-base pe-2">Επιστροφή στη</span>
+      <a class="text-base text-cf-dark-red-100 hover:text-cf-dark-red-200 hover:underline"
+         th:href="@{/login}">
+        Σύνδεση
+      </a>
+    </div>
+  </div>
+</main>
+<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+</body>
+</html>
