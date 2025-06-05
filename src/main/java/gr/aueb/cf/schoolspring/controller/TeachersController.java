@@ -81,7 +81,7 @@ public class TeachersController {
         try {
             TeacherReadOnlyDTO readOnlyDTO = teacherService.saveTeacher(dto);
             LOGGER.info("Teacher with id={} inserted", readOnlyDTO.id());
-            attrs.addFlashAttribute("successMessage", "Ο καθηγητής με vat: " + readOnlyDTO.vat() + "δημιουργήθηκε με επιτυχία");
+            attrs.addFlashAttribute("successMessage", "Ο καθηγητής με vat: " + readOnlyDTO.vat() + " δημιουργήθηκε με επιτυχία");
             return "redirect:/school/dashboard/teachers";
         } catch (EntityAlreadyExistsException | EntityInvalidArgumentException e) {
             LOGGER.error("Teacher with vat={} not inserted", dto.vat(), e);
@@ -143,6 +143,24 @@ public class TeachersController {
             model.addAttribute("errorMessage", e.getMessage());
             model.addAttribute("teacherUpdateDTO", dto);
             return "teachers-update";
+        }
+    }
+
+    @PostMapping("/teachers/teacher/delete")
+    public String deleteTeacher(
+        @RequestParam(defaultValue = "") String uuid,
+        Model model,
+        RedirectAttributes attrs
+    ) {
+        try {
+            teacherService.deleteTeacherByUuid(uuid);
+            LOGGER.info("Teacher with uuid={} deleted", uuid);
+            attrs.addFlashAttribute("successMessage", "Ο καθηγητής με uuid " + uuid + " διαγράφηκε επιτυχώς.");
+            return "redirect:/school/dashboard/teachers";
+        } catch (EntityNotFoundException e) {
+            LOGGER.error("Teacher with uuid={} not deleted", uuid, e);
+            attrs.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/school/dashboard/teachers";
         }
     }
 }
