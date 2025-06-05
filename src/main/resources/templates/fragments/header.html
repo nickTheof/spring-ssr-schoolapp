@@ -20,11 +20,15 @@
                 <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
             <div id="dropdownHeaderLogoutMenu"
-                class="hidden block absolute z-1 top-[40px] right-0 w-48 h-16 rounded shadow-lg bg-white border transition duration-150 ease-in-out py-4"
-            >
+                 class="hidden block absolute z-1 top-[40px] right-0 w-48 h-16 rounded shadow-lg bg-white border transition duration-150 ease-in-out py-4">
                 <ul>
                     <li class="block w-full">
-                        <a class="text-black block w-full px-4 cursor-pointer hover:underline" th:href="@{/logout}">Έξοδος</a>
+                        <form id="logoutForm" th:action="@{/logout}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                            <button type="submit" class="text-black block w-full px-4 cursor-pointer hover:underline text-left">
+                                Έξοδος
+                            </button>
+                        </form>
                     </li>
                 </ul>
             </div>
