@@ -9,6 +9,10 @@
         <div th:replace="~{fragments/success-card :: successCardFragment(${successMessage})}">
         </div>
     </div>
+    <div th:if="${errorMessage}">
+        <div th:replace="~{fragments/error-card :: errorCardFragment(${errorMessage})}">
+        </div>
+    </div>
     <span class="block text-center text-2xl font-thin tracking-widest mt-12 mb-4">Μητρώο Καθηγητών</span>
     <div class="overflow-y-auto max-h-[550px]">
         <div sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" class="w-4/5 mx-auto flex justify-end mb-4">
@@ -41,7 +45,7 @@
                     <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" th:href="@{/school/dashboard/teachers/teacher/update(uuid=${teacher.uuid})}" class="text-green-500">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" th:href="@{/school/dashboard/teachers/teacher/delete'(uuid=${teacher.uuid})}" class="text-red-500">
+                    <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" th:href="@{/school/dashboard/teachers/teacher/delete(uuid=${teacher.uuid})}" class="text-red-500">
                         <i class="fa-regular fa-trash-can"></i>
                     </a>
                 </td>
