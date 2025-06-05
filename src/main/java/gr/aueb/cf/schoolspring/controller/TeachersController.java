@@ -1,16 +1,22 @@
 package gr.aueb.cf.schoolspring.controller;
 
+import gr.aueb.cf.schoolspring.core.exceptions.EntityAlreadyExistsException;
+import gr.aueb.cf.schoolspring.core.exceptions.EntityInvalidArgumentException;
 import gr.aueb.cf.schoolspring.core.exceptions.EntityNotFoundException;
+import gr.aueb.cf.schoolspring.dto.TeacherInsertDTO;
 import gr.aueb.cf.schoolspring.dto.TeacherReadOnlyDTO;
 import gr.aueb.cf.schoolspring.service.IRegionService;
 import gr.aueb.cf.schoolspring.service.ITeacherService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/school/dashboard")
@@ -48,6 +54,36 @@ public class TeachersController {
             LOGGER.error("Teacher with uuid={} not found", uuid, e);
             model.addAttribute("errorMessage", e.getMessage());
             return "teacher-details";
+        }
+    }
+
+    @GetMapping("/teachers/teacher/insert")
+    public String getTeacherInsertForm(Model model) {
+        model.addAttribute("teacherInsertDTO", new TeacherInsertDTO("", "", "", "", "", "", "", "", 0));
+        model.addAttribute("regions", regionService.findAllRegions());
+        return "teachers-insert";
+    }
+
+    @PostMapping("/teachers/teacher/insert")
+    public String insertTeacher(@Valid @ModelAttribute("teacherInsertDTO") TeacherInsertDTO dto,
+                                BindingResult bindingResult,
+                                Model model,
+                                RedirectAttributes attrs
+                                ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("regions", regionService.findAllRegions());
+            return "teachers-insert";
+        }
+        try {
+            TeacherReadOnlyDTO readOnlyDTO = teacherService.saveTeacher(dto);
+            LOGGER.info("Teacher with id={} inserted", readOnlyDTO.id());
+            attrs.addFlashAttribute("successMessage", "Ο καθηγητής με vat: " + readOnlyDTO.vat() + "δημιουργήθηκε με επιτυχία");
+            return "redirect:/school/dashboard/teachers";
+        } catch (EntityAlreadyExistsException | EntityInvalidArgumentException e) {
+            LOGGER.error("Teacher with vat={} not inserted", dto.vat(), e);
+            model.addAttribute("regions", regionService.findAllRegions());
+            model.addAttribute("errorMessage", e.getMessage());
+            return "teachers-insert";
         }
     }
 }
