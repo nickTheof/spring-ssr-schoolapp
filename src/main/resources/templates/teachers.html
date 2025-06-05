@@ -7,6 +7,13 @@
 <main class="w-full min-h-[95vh]">
     <span class="block text-center text-2xl font-thin tracking-widest mt-12 mb-4">Μητρώο Καθηγητών</span>
     <div class="overflow-y-auto max-h-[550px]">
+        <div sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" class="w-4/5 mx-auto flex justify-end mb-4">
+            <a th:href="@{/school/dashboard/teachers/teacher/insert}"
+               class="inline-flex items-center gap-2 px-4 py-2 rounded bg-cf-dark-red-100 text-white hover:bg-cf-dark-red-200 transition text-sm shadow-md">
+                <i class="fa-solid fa-plus"></i>
+                <span>Προσθήκη Καθηγητή</span>
+            </a>
+        </div>
         <table class="w-4/5 mx-auto border-collapse">
             <thead class="bg-cf-dark-red-100 rounded-lg">
             <tr class="text-white">
