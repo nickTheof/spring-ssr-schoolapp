@@ -38,7 +38,7 @@
                     <a th:href="@{'/school/dashboard/teachers/teacher'(uuid=${teacher.uuid})}" class="text-blue-500">
                         <i class="fa-solid fa-eye"></i>
                     </a>
-                    <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" th:href="@{/school/dashboard/teachers/teacher/update'(uuid=${teacher.uuid})}" class="text-green-500">
+                    <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" th:href="@{/school/dashboard/teachers/teacher/update(uuid=${teacher.uuid})}" class="text-green-500">
                         <i class="fa-regular fa-pen-to-square"></i>
                     </a>
                     <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" th:href="@{/school/dashboard/teachers/teacher/delete'(uuid=${teacher.uuid})}" class="text-red-500">
