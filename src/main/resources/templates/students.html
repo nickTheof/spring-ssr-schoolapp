@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head th:replace="~{fragments/head :: headFragment('Μητρώο Μαθητών | Coding Factory')}">
+</head>
+<body>
+<header th:replace="~{fragments/header :: headerFragment('Coding Factory - Μητρώο Μαθητών')}"></header>
+<main class="w-full min-h-[95vh]">
+    <div th:if="${successMessage}">
+        <div th:replace="~{fragments/success-card :: successCardFragment(${successMessage})}">
+        </div>
+    </div>
+    <div th:if="${errorMessage}">
+        <div th:replace="~{fragments/error-card :: errorCardFragment(${errorMessage})}">
+        </div>
+    </div>
+    <span class="block text-center text-2xl font-thin tracking-widest mt-12 mb-4">Μητρώο Μαθητών</span>
+    <div class="overflow-y-auto max-h-[550px]">
+        <div sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" class="w-4/5 mx-auto flex justify-end mb-4">
+            <a th:href="@{/school/dashboard/students/student/insert}"
+               class="inline-flex items-center gap-2 px-4 py-2 rounded bg-cf-dark-red-100 text-white hover:bg-cf-dark-red-200 transition text-sm shadow-md">
+                <i class="fa-solid fa-plus"></i>
+                <span>Προσθήκη Μαθητή</span>
+            </a>
+        </div>
+        <table class="w-4/5 mx-auto border-collapse">
+            <thead class="bg-cf-dark-red-100 rounded-lg">
+            <tr class="text-white">
+                <th class="p-3 text-left">UUID</th>
+                <th class="p-3 text-left">Όνομα</th>
+                <th class="p-3 text-left">Επώνυμο</th>
+                <th class="p-3 text-left  hidden sm:table-cell">ΑΦΜ</th>
+                <th class="p-3 text-center">Ενέργειες</th>
+            </tr>
+            </thead>
+            <tbody id="table-body" class="bg-white divide-y">
+            <tr th:each="student : ${studentsPage.content}">
+                <td th:text="${student.uuid}" class="p-3 text-stone-600"></td>
+                <td th:text="${student.firstname}" class="p-3 text-stone-600"></td>
+                <td th:text="${student.lastname}" class="p-3 text-stone-600"></td>
+                <td th:text="${student.vat}" class="p-3 text-stone-600  hidden sm:table-cell"></td>
+                <td class="p-3 text-center flex justify-center gap-3">
+                    <a th:href="@{'/school/dashboard/students/student'(uuid=${student.uuid})}" class="text-blue-500">
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                    <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" th:href="@{/school/dashboard/students/student/update(uuid=${student.uuid})}" class="text-green-500">
+                        <i class="fa-regular fa-pen-to-square"></i>
+                    </a>
+                    <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')" th:href="@{/school/dashboard/students/student/delete(uuid=${student.uuid})}" class="text-red-500">
+                        <i class="fa-regular fa-trash-can"></i>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="w-4/5 mx-auto mt-6 flex flex-wrap justify-center items-center gap-2 text-sm">
+
+            <!-- First -->
+            <a th:if="${currentPage > 0}"
+               th:href="@{/school/dashboard/students(page=0, size=${studentsPage.size})}"
+               class="hidden sm:inline-block px-3 py-1 rounded bg-cf-dark-red-100 text-white hover:bg-cf-dark-red-200 transition">« Πρώτη</a>
+            <span th:if="${currentPage == 0}"
+                  class="hidden sm:inline-block px-3 py-1 rounded bg-gray-200 text-gray-500 cursor-not-allowed">« Πρώτη</span>
+
+            <!-- Previous -->
+            <a th:if="${currentPage > 0}"
+               th:href="@{/school/dashboard/students(page=${currentPage - 1}, size=${studentsPage.size})}"
+               class="px-3 py-1 rounded bg-cf-dark-red-100 text-white hover:bg-cf-dark-red-200 transition">‹ Προηγ.</a>
+            <span th:if="${currentPage == 0}"
+                  class="px-3 py-1 rounded bg-gray-200 text-gray-500 cursor-not-allowed">‹ Προηγ.</span>
+
+            <!-- Current page indicator -->
+            <span class="px-3 py-1 rounded border border-gray-300 text-gray-700">
+        <span th:text="${currentPage + 1}">1</span> / <span th:text="${totalPages}">1</span>
+    </span>
+
+            <!-- Next -->
+            <a th:if="${currentPage + 1 < totalPages}"
+               th:href="@{/school/dashboard/students(page=${currentPage + 1}, size=${studentsPage.size})}"
+               class="px-3 py-1 rounded bg-cf-dark-red-100 text-white hover:bg-cf-dark-red-200 transition">Επόμ. ›</a>
+            <span th:if="${currentPage + 1 == totalPages}"
+                  class="px-3 py-1 rounded bg-gray-200 text-gray-500 cursor-not-allowed">Επόμ. ›</span>
+
+            <!-- Last -->
+            <a th:if="${currentPage + 1 < totalPages}"
+               th:href="@{/school/dashboard/students(page=${totalPages - 1}, size=${studentsPage.size})}"
+               class="hidden sm:inline-block px-3 py-1 rounded bg-cf-dark-red-100 text-white hover:bg-cf-dark-red-200 transition">Τελευταία »</a>
+            <span th:if="${currentPage + 1 == totalPages}"
+                  class="hidden sm:inline-block px-3 py-1 rounded bg-gray-200 text-gray-500 cursor-not-allowed">Τελευταία »</span>
+        </div>
+    </div>
+    <div th:replace="~{fragments/delete-modal :: deleteModalFragment('μαθητή')}">
+    </div>
+</main>
+<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+</body>
+</html>

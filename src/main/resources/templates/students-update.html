@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head th:replace="~{fragments/head :: headFragment('Ενημέρωση Μαθητή | Coding Factory')}">
+</head>
+<body>
+<header th:replace="~{fragments/header :: headerFragment('Coding Factory - Μητρώο Μαθητών')}"></header>
+<main class="w-full min-h-[95vh]">
+    <span class="block text-center text-2xl font-thin tracking-widest mt-12 mb-4"> Στοιχεία Μαθητή</span>
+    <div th:if="${errorMessage}">
+        <div th:replace="~{fragments/error-card :: errorCardFragment(${errorMessage})}"></div>
+    </div>
+    <form th:if="${studentUpdateDTO}" method="POST" th:action="@{/school/dashboard/students/student/update(uuid=${studentUpdateDTO.uuid()})}" th:object="${studentUpdateDTO}">
+        <div class="p-1 flex flex-wrap justify-center items-center gap-x-1 gap-y-3">
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="firstname" class="font-bold text-sm w-[140px]">Όνομα *</label>
+                    <input
+                            id="firstname"
+                            name="firstname"
+                            type="text"
+                            class="h-10 border border-black w-[300px] p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2"
+                            required
+                            th:field="*{firstname}"
+                    />
+                </div>
+                <div th:if="${#fields.hasErrors('firstname')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{firstname}"></span>
+                </div>
+            </div>
+
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="lastname" class="font-bold text-sm w-[140px]">Επώνυμο *</label>
+                    <input
+                            id="lastname"
+                            name="lastname"
+                            type="text"
+                            class="w-[300px] h-10 border border-black p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2"
+                            required
+                            th:field="*{lastname}"
+                    />
+                </div>
+                <div th:if="${#fields.hasErrors('lastname')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{lastname}"></span>
+                </div>
+            </div>
+
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="vat" class="font-bold text-sm w-[140px]">ΑΦΜ *</label>
+                    <input
+                            id="vat"
+                            name="vat"
+                            type="text"
+                            class="w-[300px] h-10 border border-black p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2"
+                            required
+                            th:field="*{vat}"
+                    />
+                </div>
+                <div th:if="${#fields.hasErrors('vat')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{vat}"></span>
+                </div>
+            </div>
+
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="fatherName" class="font-bold text-sm w-[140px]">Πατρώνυμο *</label>
+                    <input
+                            id="fatherName"
+                            name="fatherName"
+                            type="text"
+                            class="h-10 border border-black p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2 w-[300px]"
+                            required
+                            th:field="*{fatherName}"
+                    />
+                </div>
+                <div th:if="${#fields.hasErrors('fatherName')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{fatherName}"></span>
+                </div>
+            </div>
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="email" class="w-[140px] font-bold text-sm">Email *</label>
+                    <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            class="w-[300px] h-10 border border-black p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2"
+                            required
+                            th:field="*{email}"
+                    />
+                </div>
+                <div th:if="${#fields.hasErrors('email')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{email}"></span>
+                </div>
+            </div>
+
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="street" class="w-[140px] font-bold text-sm">Διεύθυνση *</label>
+                    <input
+                            id="street"
+                            name="street"
+                            type="text"
+                            class="w-[300px] h-10 border border-black p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2"
+                            required
+                            th:field="*{street}"
+                    />
+                </div>
+                <div th:if="${#fields.hasErrors('street')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{street}"></span>
+                </div>
+            </div>
+
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="streetNum" class="w-[140px] font-bold text-sm">Αριθμός *</label>
+                    <input
+                            id="streetNum"
+                            name="streetNum"
+                            type="text"
+                            class="w-[300px] h-10 border border-black p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2"
+                            th:field="*{streetNum}"
+                    />
+                </div>
+                <div th:if="${#fields.hasErrors('streetNum')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{streetNum}"></span>
+                </div>
+            </div>
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="zipCode" class="w-[140px] font-bold text-sm">ΤΚ *</label>
+                    <input
+                            id="zipCode"
+                            name="zipCode"
+                            type="text"
+                            class="w-[300px] h-10 border border-black p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2"
+                            th:field="*{zipCode}"
+                    />
+                </div>
+                <div th:if="${#fields.hasErrors('zipCode')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{zipCode}"></span>
+                </div>
+            </div>
+
+            <div class="w-4/5 mx-auto lg:w-2/5 lg:mx-0 h-16">
+                <div class="flex flex-row items-center justify-center lg:justify-start gap-x-3">
+                    <label for="region" class="w-[140px] font-bold text-sm">Πόλη *</label>
+                    <select
+                            id="region"
+                            name="regionId"
+                            class="bg-white w-[300px] h-10 border border-black p-2 shadow-xl focus:outline-none focus:ring-2 focus:ring-inset-2"
+                            required
+                            th:field="*{regionId}"
+
+                    >
+                        <option value="" selected>Επιλέξτε Πόλη</option>
+                        <option th:each="region : ${regions}" th:value="${region.id}" th:text="${region.name}"></option>
+                    </select>
+                </div>
+                <div th:if="${#fields.hasErrors('regionId')}" class="text-red-600 text-sm mt-1 text-center lg:text-start">
+                    <span th:errors="*{regionId}"></span>
+                </div>
+            </div>
+            <div class="w-full mt-8 flex justify-center gap-6">
+                <!-- Back Button -->
+                <a th:href="@{/school/dashboard/students}"
+                   class="px-6 py-2 text-white bg-gray-500 hover:bg-gray-600 rounded transition duration-200 shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    Επιστροφή
+                </a>
+
+                <!-- Submit Button -->
+                <button type="submit"
+                        class="px-6 py-2 text-white bg-cf-dark-red-100 hover:bg-cf-dark-red-200 rounded transition duration-200 shadow-lg flex items-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    Ενημέρωση
+                </button>
+            </div>
+        </div>
+    </form>
+</main>
+<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+</body>
+</html>
