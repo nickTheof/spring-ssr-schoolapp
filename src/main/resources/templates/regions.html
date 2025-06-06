@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head th:replace="~{fragments/head :: headFragment('Admin Panel | Coding Factory', ~{::extraHead})}">
+  <th:block th:fragment="extraHead">
+    <script th:src="@{/js/regions.js}"></script>
+  </th:block>
+</head>
+<body>
+<header th:replace="~{fragments/header :: headerFragment('Coding Factory - Regions Admin Panel')}"></header>
+<main class="w-full min-h-[95vh]">
+  <span class="block text-center text-2xl font-thin tracking-widest mt-12 mb-4">Διαχείριση Περιοχών</span>
+  <div th:if="${successMessage}">
+    <div th:replace="~{fragments/success-card :: successCardFragment(${successMessage})}">
+    </div>
+  </div>
+  <div th:if="${errorMessage}">
+    <div th:replace="~{fragments/error-card :: errorCardFragment(${errorMessage})}"></div>
+  </div>
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 p-6 max-w-6xl mx-auto">
+
+    <form th:action="@{${editMode} ? '/admin/panel/regions/update' : '/admin/panel/regions/insert'}"
+          method="post"
+          th:object="${regionDTO}"
+          class="space-y-4 bg-white p-6 rounded shadow-md border border-gray-200">
+
+      <h2 class="text-lg font-semibold mb-4" th:text="${editMode} ? 'Επεξεργασία Περιοχής' : 'Προσθήκη Περιοχής'"></h2>
+
+      <input type="hidden" th:if="${editMode}" th:field="*{id}" />
+
+      <div>
+        <label for="name" class="block font-medium text-sm mb-1">Όνομα Περιοχής *</label>
+        <input th:field="*{name}"
+               id="name"
+               name="name"
+               class="w-full h-10 px-3 border border-gray-300 rounded focus:ring-2 focus:ring-cf-dark-red-100"
+               required />
+        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-red-600 text-sm mt-1"></p>
+      </div>
+
+      <div class="flex justify-between items-center">
+        <a th:if="${editMode}" th:href="@{/admin/panel/regions}" class="text-sm text-gray-600 hover:underline">
+          Ακύρωση Επεξεργασίας
+        </a>
+
+        <button type="submit"
+                class="bg-cf-dark-red-100 text-white px-4 py-2 rounded hover:bg-cf-dark-red-200 transition cursor-pointer">
+          <i class="fa-solid fa-save mr-1"></i>
+          <span th:text="${editMode} ? 'Αποθήκευση' : 'Προσθήκη'"></span>
+        </button>
+      </div>
+    </form>
+
+    <div class="bg-white p-6 rounded shadow-md border border-gray-200">
+      <h2 class="text-lg font-semibold mb-4">Λίστα Περιοχών</h2>
+
+      <table class="w-full overflow-y-auto table-auto text-sm">
+        <thead>
+        <tr class="bg-gray-100 border-b">
+          <th class="text-left p-2">#</th>
+          <th class="text-left p-2">Όνομα</th>
+          <th class="text-center p-2">Ενέργειες</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="region, stat : ${regions}" class="border-t hover:bg-gray-50">
+          <td class="p-2" th:text="${stat.index + 1}"></td>
+          <td class="p-2" th:text="${region.name}"></td>
+          <td class="p-2 text-center space-x-2">
+            <a th:href="@{/admin/panel/regions/edit/{id}(id=${region.id})}"
+               class="text-blue-600 hover:underline">
+              Επεξεργασία
+            </a>
+            <a href="#"
+               th:attr="data-id=${region.id}"
+               onclick="confirmDelete(this)"
+               class="text-red-600 hover:underline">
+              Διαγραφή
+            </a>
+          </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(regions)}">
+          <td colspan="3" class="p-2 text-center text-gray-400">Δεν υπάρχουν περιοχές.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <form id="deleteForm" th:action="@{/admin/panel/regions/delete}" method="post" class="hidden">
+    <input type="hidden" name="id" id="deleteRegionId">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+  </form>
+  <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden z-50">
+    <div class="bg-white rounded-lg shadow-lg w-[90%] max-w-md p-6">
+      <h3 class="text-lg font-semibold mb-4">Επιβεβαίωση Διαγραφής</h3>
+      <p class="text-sm text-gray-700 mb-6">Είστε σίγουροι ότι θέλετε να διαγράψετε αυτή την περιοχή;</p>
+      <div class="flex justify-end gap-4">
+        <button onclick="hideModal()" class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">
+          Άκυρο
+        </button>
+        <button onclick="submitDelete()" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+          Διαγραφή
+        </button>
+      </div>
+    </div>
+  </div>
+
+</main>
+<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+</body>
+</html>
