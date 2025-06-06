@@ -5,7 +5,7 @@
 <body>
 <header th:fragment="headerFragment(title)" class="bg-cf-dark-red-100 border-b-2 border-cf-dark-red-200 text-sm text-white sticky top-0 w-full">
     <div class="flex justify-between items-center p-4 h-20 w-full max-w-7xl mx-auto">
-        <a class="flex items-center gap-x-4" href="/">
+        <a class="flex items-center gap-x-4" th:href="@{/school/dashboard}">
             <img class="h-12 w-auto" th:src="@{/img/logo_opa.png}" alt="Logo of Economics University of Athens">
             <span th:text="${title}" class="hidden lg:block font-serif font-thin text-sm tracking-wide"></span>
         </a>
