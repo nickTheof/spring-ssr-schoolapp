@@ -5,6 +5,7 @@ import gr.aueb.cf.schoolspring.dto.*;
 import gr.aueb.cf.schoolspring.model.Student;
 import gr.aueb.cf.schoolspring.model.Teacher;
 import gr.aueb.cf.schoolspring.model.User;
+import gr.aueb.cf.schoolspring.model.static_data.Region;
 import org.springframework.stereotype.Component;
 
 
@@ -74,5 +75,13 @@ public class Mapper {
 
     public UserReadOnlyDTO mapToUserReadOnlyDTO(User user) {
         return new UserReadOnlyDTO(user.getId(), user.getUuid(), user.getUsername(), user.getRole().name(), user.getIsActive(), user.getCreatedAt(), user.getUpdatedAt());
+    }
+
+    public RegionReadOnlyDTO mapToRegionReadOnlyDTO(Region region) {
+        return new RegionReadOnlyDTO(region.getId(), region.getName());
+    }
+
+    public Region mapToRegion(RegionInsertDTO dto) {
+        return new Region(null, dto.name(), null, null);
     }
 }
