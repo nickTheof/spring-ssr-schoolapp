@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
+<head th:replace="~{fragments/head :: headFragment('Server Error | Coding Factory', ~{})}">
+</head>
+<body>
+<header th:replace="~{fragments/header :: headerFragment('Coding Factory - Error')}"></header>
+<main class="w-full min-h-[95vh]">
+  <div th:replace="~{fragments/error-card :: errorCardFragment('Προέκυψε κάποιο σφάλμα. Παρακαλούμε προσπαθήστε ξανά αργότερα.')}"></div>
+</main>
+<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+</body>
+</html>
