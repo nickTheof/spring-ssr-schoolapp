@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/springsecurity">
-<head th:replace="~{fragments/head :: headFragment('Μητρώο Καθηγητών | Coding Factory')}">
+<head th:replace="~{fragments/head :: headFragment('Μητρώο Καθηγητών | Coding Factory', ~{::extraHead})}">
+    <th:block th:fragment="extraHead">
+        <script th:src="@{/js/teachers.js}"></script>
+    </th:block>
 </head>
 <body>
 <header th:replace="~{fragments/header :: headerFragment('Coding Factory - Μητρώο Καθηγητών')}"></header>
