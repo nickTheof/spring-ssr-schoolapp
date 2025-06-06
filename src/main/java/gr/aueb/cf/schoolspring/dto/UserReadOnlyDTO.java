@@ -7,6 +7,7 @@ public record UserReadOnlyDTO(
         String uuid,
         String username,
         String role,
+        Boolean isActive,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {
