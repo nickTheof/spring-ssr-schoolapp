@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="el" xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="headFragment(title)">
+<html lang="el" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head th:fragment="headFragment(title, extraHead)">
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}">
     <link rel="icon"
@@ -17,8 +17,7 @@
     />
     <script th:src="@{/js/header.js}"></script>
     <script th:src="@{/js/mobileNav.js}"></script>
-    <script th:src="@{/js/teachers.js}"></script>
-    <script th:src="@{/js/students.js}"></script>
+    <th:block th:replace="${extraHead}" />
     <style type="text/tailwindcss">
         @theme {
           --color-cf-dark-red-100: #762124;
