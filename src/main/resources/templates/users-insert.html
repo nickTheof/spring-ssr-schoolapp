@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<head th:replace="~{fragments/head :: headFragment('User Insert | Admin Panel', ~{})}">
+</head>
+<body>
+<header th:replace="~{fragments/header :: headerFragment('Coding Factory - Admin Users Panel')}"></header>
+<main class="w-full min-h-[95vh] bg-gray-50 px-4 py-10">
+  <h1 class="text-center text-3xl font-light tracking-wide mb-10">Στοιχεία Χρήστη</h1>
+
+  <div th:if="${errorMessage}">
+    <div th:replace="~{fragments/error-card :: errorCardFragment(${errorMessage})}"></div>
+  </div>
+
+  <form method="POST" th:action="@{/admin/panel/users/insert}" th:object="${userInsertDTO}" class="max-w-3xl mx-auto space-y-6">
+    <!-- Username -->
+    <div class="flex flex-col md:flex-row items-center gap-4">
+      <label for="username" class="w-full md:w-40 font-bold text-sm text-gray-700">Username *</label>
+      <div class="w-full">
+        <input
+                id="username"
+                name="username"
+                type="email"
+                th:field="*{username}"
+                class="w-full h-10 border border-gray-300 rounded px-3 shadow focus:ring-2 focus:ring-cf-dark-red-100 focus:outline-none"
+                required
+        />
+        <p th:if="${#fields.hasErrors('username')}" class="text-red-500 text-sm mt-1" th:errors="*{username}"></p>
+      </div>
+    </div>
+
+    <!-- Role -->
+    <div class="flex flex-col md:flex-row items-center gap-4">
+      <label for="role" class="w-full md:w-40 font-bold text-sm text-gray-700">Ρόλος *</label>
+      <div class="w-full">
+        <select
+                id="role"
+                name="role"
+                th:field="*{role}"
+                required
+                class="w-full h-10 border border-gray-300 rounded px-3 bg-white shadow focus:ring-2 focus:ring-cf-dark-red-100 focus:outline-none"
+        >
+          <option value="">Επιλέξτε Ρόλο</option>
+          <option th:each="role : ${allRoles}" th:value="${role}" th:text="${role}"></option>
+        </select>
+        <p th:if="${#fields.hasErrors('role')}" class="text-red-500 text-sm mt-1" th:errors="*{role}"></p>
+      </div>
+    </div>
+
+    <!-- Password -->
+    <div class="flex flex-col md:flex-row items-center gap-4">
+      <label for="password" class="w-full md:w-40 font-bold text-sm text-gray-700">Κωδικός *</label>
+      <div class="w-full">
+        <input
+                id="password"
+                name="password"
+                type="password"
+                th:field="*{password}"
+                required
+                class="w-full h-10 border border-gray-300 rounded px-3 shadow focus:ring-2 focus:ring-cf-dark-red-100 focus:outline-none"
+        />
+        <p th:if="${#fields.hasErrors('password')}" class="text-red-500 text-sm mt-1" th:errors="*{password}"></p>
+      </div>
+    </div>
+
+    <!-- Confirm Password -->
+    <div class="flex flex-col md:flex-row items-center gap-4">
+      <label for="confirmPassword" class="w-full md:w-40 font-bold text-sm text-gray-700">Επιβεβαίωση *</label>
+      <div class="w-full">
+        <input
+                id="confirmPassword"
+                name="confirmPassword"
+                type="password"
+                th:field="*{confirmPassword}"
+                required
+                class="w-full h-10 border border-gray-300 rounded px-3 shadow focus:ring-2 focus:ring-cf-dark-red-100 focus:outline-none"
+        />
+        <p th:if="${#fields.hasErrors('confirmPassword')}" class="text-red-500 text-sm mt-1" th:errors="*{confirmPassword}"></p>
+      </div>
+    </div>
+
+    <!-- Is Active -->
+    <div class="flex flex-col md:flex-row items-center gap-4">
+      <label for="isActive" class="w-full md:w-40 font-bold text-sm text-gray-700">Ενεργός Χρήστης</label>
+      <div class="w-full">
+        <input
+                type="checkbox"
+                id="isActive"
+                name="isActive"
+                th:field="*{isActive}"
+                class="w-5 h-5 border border-gray-400 rounded shadow focus:ring-2 focus:ring-cf-dark-red-100"
+        />
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-center gap-4 pt-6">
+      <a th:href="@{/admin/panel/users}"
+         class="px-5 py-2 rounded bg-gray-500 text-white hover:bg-gray-600 transition shadow-md flex items-center gap-2">
+        <i class="fa-solid fa-arrow-left"></i> Επιστροφή
+      </a>
+      <button type="submit"
+              class="px-5 py-2 rounded bg-cf-dark-red-100 text-white hover:bg-cf-dark-red-200 transition shadow-md flex items-center gap-2 cursor-pointer">
+        <i class="fa-solid fa-paper-plane"></i> Υποβολή
+      </button>
+    </div>
+  </form>
+</main>
+
+<footer th:replace="~{fragments/footer :: footerFragment}"></footer>
+</body>
+</html>
