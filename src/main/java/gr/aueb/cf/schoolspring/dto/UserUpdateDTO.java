@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record UserUpdateDTO(
+        String uuid,
         @NotNull(message = "Το email είναι υποχρεωτικό.")
         @Email(message = "Μη έγκυρη μορφή email.")
         String username,

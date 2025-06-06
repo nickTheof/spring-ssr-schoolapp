@@ -12,12 +12,14 @@ import org.springframework.data.domain.Page;
 public interface IUserService {
     UserReadOnlyDTO saveUser(UserInsertDTO dto)
         throws EntityAlreadyExistsException;
-    UserReadOnlyDTO updateUser(Long id, UserUpdateDTO dto)
+    UserReadOnlyDTO updateUser(String uuid, UserUpdateDTO dto)
         throws EntityAlreadyExistsException, EntityNotFoundException;
     void deleteUserByUuid(String uuid) throws EntityNotFoundException;
-    void disableUserByUuid(String uuid) throws EntityNotFoundException;
+    void toggleStatusActivityByUuid(String uuid) throws EntityNotFoundException;
+    void updateRoleByUuid(String uuid, String role) throws EntityNotFoundException;
     Page<UserReadOnlyDTO> getPaginatedUsers(int page, int size);
     UserReadOnlyDTO findByUsername(String username) throws EntityNotFoundException;
+    UserReadOnlyDTO findByUuid(String uuid) throws EntityNotFoundException;
     Page<UserReadOnlyDTO> getPaginatedUsersByActivityStatus(Boolean isActive, int page, int size);
     Page<UserReadOnlyDTO> getPaginatedUsersByRole(Role role, int page, int size);
 }

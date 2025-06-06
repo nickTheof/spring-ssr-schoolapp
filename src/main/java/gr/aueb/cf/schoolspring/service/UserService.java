@@ -39,9 +39,9 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public UserReadOnlyDTO updateUser(Long id, UserUpdateDTO dto) throws EntityAlreadyExistsException, EntityNotFoundException {
-        User fetchedUser = userRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("User", "Ο χρήστης με id " + id + " δεν βρέθηκε.")
+    public UserReadOnlyDTO updateUser(String uuid, UserUpdateDTO dto) throws EntityAlreadyExistsException, EntityNotFoundException {
+        User fetchedUser = userRepository.findByUuid(uuid).orElseThrow(
+                () -> new EntityNotFoundException("User", "Ο χρήστης με uuid " + uuid + " δεν βρέθηκε.")
         );
         Optional<User> fetchUserByUsername = userRepository.findByUsername(dto.username());
         if(fetchUserByUsername.isPresent() && !fetchUserByUsername.get().getId().equals(fetchedUser.getId())) {
@@ -64,14 +64,12 @@ public class UserService implements IUserService {
 
     @Override
     @Transactional(rollbackOn = Exception.class)
-    public void disableUserByUuid(String uuid) throws EntityNotFoundException {
+    public void toggleStatusActivityByUuid(String uuid) throws EntityNotFoundException {
         User user = userRepository.findByUuid(uuid).orElseThrow(
                 () -> new EntityNotFoundException("User", "Ο χρήστης με " + uuid + " δεν βρέθηκε.")
         );
-        if(user.getIsActive()) {
-            user.setIsActive(false);
-            userRepository.save(user);
-        }
+        user.setIsActive(!user.getIsActive());
+        userRepository.save(user);
     }
 
     @Override
@@ -90,6 +88,14 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public UserReadOnlyDTO findByUuid(String uuid) throws EntityNotFoundException {
+        User user = userRepository.findByUuid(uuid).orElseThrow(
+                () -> new EntityNotFoundException("User", "Ο χρήστης με uuid " + uuid + " δεν βρέθηκε.")
+        );
+        return mapper.mapToUserReadOnlyDTO(user);
+    }
+
+    @Override
     public Page<UserReadOnlyDTO> getPaginatedUsersByActivityStatus(Boolean isActive, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<User> userPage = userRepository.findByIsActive(isActive, pageable);
@@ -101,5 +107,16 @@ public class UserService implements IUserService {
         Pageable pageable = PageRequest.of(page, size);
         Page<User> userPage = userRepository.findByRole(role, pageable);
         return userPage.map(mapper::mapToUserReadOnlyDTO);
+    }
+
+    @Override
+    public void updateRoleByUuid(String uuid, String role) throws EntityNotFoundException {
+        User user = userRepository.findByUuid(uuid).orElseThrow(
+                () -> new EntityNotFoundException("User", "Ο χρήστης με uuid " + uuid + " δεν βρέθηκε.")
+        );
+        if (!role.equals(user.getRole().name())) {
+            user.setRole(Role.valueOf(role));
+            userRepository.save(user);
+        }
     }
 }
