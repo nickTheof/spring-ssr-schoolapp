@@ -66,6 +66,20 @@
                 </a>
             </div>
         </div>
+
+        <div sec:authorize="hasAuthority('ADMIN')" class="flex flex-col justify-start space-y-3 p-4 border rounded-lg shadow-md bg-white">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-map-location-dot text-cf-dark-red-200"></i>
+                <span class="text-lg font-bold">Διαχείριση Περιοχών</span>
+            </div>
+            <div class="flex flex-col space-y-2">
+                <span>Διαχείριση περιοχών (προσθήκη, προβολή, διαγραφή)</span>
+                <a th:href="@{/admin/panel/regions}"
+                   class="max-w-[160px] text-center text-white text-sm px-6 py-3 rounded bg-cf-dark-red-200 hover:bg-cf-dark-red-100 transition">
+                    Συνέχεια
+                </a>
+            </div>
+        </div>
     </div>
 </main>
 <footer th:replace="~{fragments/footer :: footerFragment}"></footer>
