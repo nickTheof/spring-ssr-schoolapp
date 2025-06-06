@@ -3,6 +3,7 @@ package gr.aueb.cf.schoolspring.service;
 import gr.aueb.cf.schoolspring.core.enums.Role;
 import gr.aueb.cf.schoolspring.core.exceptions.EntityAlreadyExistsException;
 import gr.aueb.cf.schoolspring.core.exceptions.EntityNotFoundException;
+import gr.aueb.cf.schoolspring.dto.UserInsertByAdminDTO;
 import gr.aueb.cf.schoolspring.dto.UserInsertDTO;
 import gr.aueb.cf.schoolspring.dto.UserReadOnlyDTO;
 import gr.aueb.cf.schoolspring.dto.UserUpdateDTO;
@@ -29,6 +30,17 @@ public class UserService implements IUserService {
     @Override
     @Transactional(rollbackOn = Exception.class)
     public UserReadOnlyDTO saveUser(UserInsertDTO dto) throws EntityAlreadyExistsException {
+        if(userRepository.findByUsername(dto.username()).isPresent())
+            throw new EntityAlreadyExistsException("User", "Ο χρήστης με username " + dto.username() + " υπάρχει ήδη.");
+        User user = mapper.mapToUser(dto);
+        user.setPassword(passwordEncoder.encode(dto.password()));
+        User savedUser = userRepository.save(user);
+        return mapper.mapToUserReadOnlyDTO(savedUser);
+    }
+
+    @Override
+    @Transactional(rollbackOn = Exception.class)
+    public UserReadOnlyDTO saveUser(UserInsertByAdminDTO dto) throws EntityAlreadyExistsException {
         if(userRepository.findByUsername(dto.username()).isPresent())
             throw new EntityAlreadyExistsException("User", "Ο χρήστης με username " + dto.username() + " υπάρχει ήδη.");
         User user = mapper.mapToUser(dto);

@@ -60,6 +60,10 @@ public class Mapper {
         return new User(null, dto.username(), dto.password(), true, Role.READER);
     }
 
+    public User mapToUser(UserInsertByAdminDTO dto) {
+        return new User(null, dto.username(), dto.password(), dto.isActive(), Role.valueOf(dto.role()));
+    }
+
     public User mapToUser(UserUpdateDTO dto, User user) {
         user.setUsername(dto.username());
         user.setPassword(dto.password());
