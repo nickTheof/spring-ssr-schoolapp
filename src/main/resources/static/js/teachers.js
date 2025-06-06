@@ -18,36 +18,40 @@ window.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    confirmBtn.addEventListener("click", () => {
-        if (!deleteUuid) return;
+    if(confirmBtn) {
+        confirmBtn.addEventListener("click", () => {
+            if (!deleteUuid) return;
 
-        // Create a hidden form for POST request
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = '/school/dashboard/teachers/teacher/delete';
+            // Create a hidden form for POST request
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/school/dashboard/teachers/teacher/delete';
 
-        // Add UUID input
-        const uuidInput = document.createElement('input');
-        uuidInput.type = 'hidden';
-        uuidInput.name = 'uuid';
-        uuidInput.value = deleteUuid;
-        form.appendChild(uuidInput);
+            // Add UUID input
+            const uuidInput = document.createElement('input');
+            uuidInput.type = 'hidden';
+            uuidInput.name = 'uuid';
+            uuidInput.value = deleteUuid;
+            form.appendChild(uuidInput);
 
-        // Add CSRF token (required for POST)
-        const csrfInput = document.createElement('input');
-        csrfInput.type = 'hidden';
-        csrfInput.name = '_csrf';
-        csrfInput.value = document.querySelector('meta[name="_csrf"]').content; // Ensure CSRF meta tag exists
-        form.appendChild(csrfInput);
+            // Add CSRF token (required for POST)
+            const csrfInput = document.createElement('input');
+            csrfInput.type = 'hidden';
+            csrfInput.name = '_csrf';
+            csrfInput.value = document.querySelector('meta[name="_csrf"]').content; // Ensure CSRF meta tag exists
+            form.appendChild(csrfInput);
 
-        // Submit the form
-        document.body.appendChild(form);
-        form.submit();
-    });
+            // Submit the form
+            document.body.appendChild(form);
+            form.submit();
+        });
+    }
 
-    cancelBtn.addEventListener("click", () => {
-        modal.classList.remove("flex");
-        modal.classList.add("hidden");
-        deleteUuid = "";
-    });
+    if (cancelBtn) {
+        cancelBtn.addEventListener("click", () => {
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+            deleteUuid = "";
+        });
+    };
 });
