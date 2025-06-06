@@ -1,9 +1,11 @@
 package gr.aueb.cf.schoolspring.controller;
 
 import gr.aueb.cf.schoolspring.core.exceptions.EntityAlreadyExistsException;
+import gr.aueb.cf.schoolspring.core.exceptions.EntityInvalidArgumentException;
 import gr.aueb.cf.schoolspring.core.exceptions.EntityNotFoundException;
-import gr.aueb.cf.schoolspring.dto.UserInsertByAdminDTO;
-import gr.aueb.cf.schoolspring.dto.UserReadOnlyDTO;
+import gr.aueb.cf.schoolspring.dto.*;
+import gr.aueb.cf.schoolspring.model.static_data.Region;
+import gr.aueb.cf.schoolspring.service.IRegionService;
 import gr.aueb.cf.schoolspring.service.IUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdminPanelController {
     private final IUserService userService;
+    private final IRegionService regionService;
     private final Logger LOGGER = LoggerFactory.getLogger(AdminPanelController.class);
 
     @GetMapping("/users")
@@ -132,5 +135,95 @@ public class AdminPanelController {
             model.addAttribute("errorMessage", e.getMessage());
             return "users-insert";
         }
+    }
+
+    @GetMapping("/regions")
+    public String getRegionsAdminPanel(Model model) {
+        List<Region> regions = regionService.findAllRegions();
+        model.addAttribute("regions", regions);
+        model.addAttribute("regionDTO", new RegionInsertDTO(""));
+        return "regions";
+    }
+
+    @GetMapping("/regions/edit/{id}")
+    public String showEditRegionForm(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            List<Region> regions = regionService.findAllRegions();
+            RegionReadOnlyDTO regionReadOnlyDTO = regionService.findById(id);
+            model.addAttribute("regionDTO", new RegionUpdateDTO(regionReadOnlyDTO.id(), regionReadOnlyDTO.name()));
+            model.addAttribute("regions", regions);
+            model.addAttribute("editMode", true);
+            return "regions";
+        } catch (EntityNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Η περιοχή δεν βρέθηκε.");
+            return "redirect:/admin/panel/regions";
+        }
+    }
+
+    @PostMapping("/regions/insert")
+    public String insertRegion(
+            @Valid @ModelAttribute("regionDTO") RegionInsertDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes attrs
+    ) {
+        List<Region> regions = regionService.findAllRegions();
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("regions", regions);
+            return "regions";
+        }
+        try {
+            regionService.insertRegion(dto);
+            LOGGER.info("Region with name={} inserted successfully.", dto.name());
+            attrs.addFlashAttribute("successMessage", "Η περιοχή με όνομα " + dto.name() + " προστέθηκε επιτυχώς");
+            return "redirect:/admin/panel/regions";
+        } catch (EntityAlreadyExistsException e) {
+            LOGGER.error("Region with name={} not inserted.", dto.name(), e);
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("regions", regions);
+            return "regions";
+        }
+    }
+
+    @PostMapping("/regions/update")
+    public String updateRegion(
+            @Valid @ModelAttribute("regionDTO") RegionUpdateDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes attrs
+    ) {
+        List<Region> regions = regionService.findAllRegions();
+        if (bindingResult.hasErrors()) {
+            LOGGER.error("Region with id={} not updated.", dto.id());
+            attrs.addFlashAttribute("errorMessage", bindingResult.getFieldError("name").getDefaultMessage());
+            return "redirect:/admin/panel/regions";
+        }
+        try {
+            regionService.updateRegion(dto);
+            LOGGER.info("Region with id={} updated successfully", dto.id());
+            attrs.addFlashAttribute("successMessage", "Η περιοχή με id " + dto.id() + " ενημερώθηκε επιτυχώς");
+            return "redirect:/admin/panel/regions";
+        } catch (EntityNotFoundException | EntityAlreadyExistsException e) {
+            LOGGER.error("Region with id={} not updated.", dto.id(), e);
+            model.addAttribute("errorMessage", "Η περιοχή με όνομα " + dto.name() + " υπάρχει ήδη.");
+            model.addAttribute("regions", regions);
+            return "regions";
+        }
+
+    }
+
+    @PostMapping("/regions/delete")
+    public String deleteRegion(@RequestParam("id") Integer id,
+                               RedirectAttributes attrs) {
+        try {
+            regionService.deleteRegionById(id);
+            LOGGER.info("H περιοχή με id={} διαγράφηκε επιτυχώς", id);
+            attrs.addFlashAttribute("successMessage", "H περιοχή με id " + id + " διαγράφηκε επιτυχώς");
+        } catch (EntityNotFoundException | EntityInvalidArgumentException e) {
+            attrs.addFlashAttribute("errorMessage", e.getMessage());
+            LOGGER.error("Fail to delete Region with id={}.", id, e);
+        }
+        return "redirect:/admin/panel/regions";
     }
 }
