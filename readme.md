@@ -76,6 +76,70 @@ cd spring-ssr-schoolapp
 ./gradlew bootRun
 ```
 
+
+## ⚙️ Setup Instructions
+
+### 1️⃣ Create the Database & User
+
+Use MySQL to create the database schema and user for the application:
+
+```sql
+CREATE DATABASE school_app;
+CREATE USER 'school_user'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON school_app.* TO 'school_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+### 2️⃣ Configure Application Properties
+
+Update the connection details and other environment variables in:
+
+```
+src/main/resources/application.properties
+src/main/resources/application-test.properties
+src/main/resources/application-prod.properties
+src/main/resources/application-stage.properties
+```
+
+### 3️⃣ Manually Create the First Admin User
+
+Insert an admin user manually into your MySQL database with a **BCrypt-hashed password**.
+
+```sql
+INSERT INTO users (username, password, role, is_active, created_at, updated_at, uuid)
+VALUES (
+  'admin@example.com',
+  '$2a$10$abcdefghijk1234567890hashedPasswordHere',
+  'ADMIN',
+  true,
+  NOW(),
+  NOW(),
+  UUID()
+);
+```
+
+### 4️⃣ Preload Regions (First Run Only)
+
+To preload **region** data using SQL script:
+
+1. Uncomment the following in `application.properties`:
+
+```properties
+spring.sql.init.mode=always
+spring.sql.init.data-locations=classpath:sql/regions.sql
+```
+
+2. Run the application to load default region data.
+
+3. **Then comment the init mode again** to avoid re-initialization:
+
+```properties
+# spring.sql.init.mode=always
+```
+
+---
+
+
 ---
 
 ## 📁 Folder Structure (Brief)
@@ -99,7 +163,45 @@ src/
 
 ---
 
-## 📸 Screenshots
+## 🖼️ Screenshots
+
+### 🔐 Authentication
+- **Login Page**  
+  ![Login Page](screenshots/login-page.png)
+- **User Registration**  
+  ![User Registration](screenshots/user-register.png)
+
+### 🎯 Dashboards
+- **Landing Page**  
+  ![Landing Page](screenshots/landing-page.png)
+- **Admin Dashboard**  
+  ![Admin Dashboard](screenshots/admin-dashboard.png)
+- **Editor Dashboard**  
+  ![Editor Dashboard](screenshots/editor-dashboard.png)
+- **Reader Dashboard**  
+  ![Reader Dashboard](screenshots/reader-dashboard.png)
+
+### 👩‍🏫 Teacher Management
+- **Paginated List**  
+  ![Paginated Teachers](screenshots/paginated-teachers.png)
+- **Insert Teacher**  
+  ![Insert Teacher](screenshots/teacher-insert.png)
+- **Update Teacher**  
+  ![Update Teacher](screenshots/teacher-update.png)
+- **Detail View**  
+  ![Teacher Detail](screenshots/teacher-detail.png)
+
+### 🌍 Region Management
+- **Regions Overview**  
+  ![Regions Management](screenshots/regions-management.png)
+- **Update Region**  
+  ![Update Region](screenshots/regions-update.png)
+
+### 👤 User Management (Admin Panel)
+- **Insert User**  
+  ![Insert User](screenshots/user-insert-admin-panel.png)
+- **User Management**  
+  ![User Management](screenshots/user-management-admin-panel.png)
 
 
 ---
